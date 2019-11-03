@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Web Mail System</title>
+    <script defer src="javascripts/script.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css" />
+  </head>
+  <body>
+    <header id="header"></header>
+    <nav id="functions">
+      <button id="compose">Compose</button>
+      <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="#"></a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+      </div>
+      <button id="back"><</button>
+      <button id="forward">></button>
+    </nav>
+    <div id="panel">
+      <aside id="mailboxes">
+        <button class="mailbox-link clicked" data-mailbox="Inbox">Inbox</button>
+        <button class="mailbox-link" data-mailbox="Important">Important</button>
+        <button class="mailbox-link" data-mailbox="Sent">Sent</button>
+        <button class="mailbox-link" data-mailbox="Trash">Trash</button>
+      </aside>
+      <main id="emails"></main>
+    </div>
+  </body>
+</html>

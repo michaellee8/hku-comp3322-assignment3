@@ -1,0 +1,19 @@
+{
+  "name": "hku-comp3322-assignment1",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "monk": "^7.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/monk": "^6.0.0",
+    "@types/node": "^12.12.5",
+    "prettier": "^1.18.2"
+  }
+}
