@@ -28,7 +28,6 @@ document.querySelectorAll("#mailboxes > .mailbox-link").forEach(e => {
 });
 
 document.getElementById("compose").onclick = onCompose;
-document.getElementById("moveto").onclick = onMoveTo;
 document.getElementById("back").onclick = onBack;
 document.getElementById("forward").onclick = onForward;
 
@@ -60,19 +59,78 @@ async function showContent(id) {
 <div>${recipient}</div>
 <div>${content}</div>
   `;
+
+  document.getElementById("emails").dataset.currentPage = "content";
+  document.getElementById("emails").dataset.id = id;
 }
 
-function onCompose() {}
+function onCompose() {
+  document.getElementById("emails").innerHTML = `
+<div>New Message</div>
+<div>
+  <label for="to">To: </label>
+  <input id="to"/>
+</div>
+<div>
+  <label for="subject">Subject: </label>
+  <input id="subject"/>
+</div>
+<div>
+  <textarea id="content"></textarea>
+</div>
+<div>
+  <button id="send-compose">Send</button>
+</div>
+  `;
+  document.getElementById("send-compose").onclick = async () => {
+    const to = document.getElementById("to").value;
+    const subject = document.getElementById("subject").value;
+    const content = document.getElementById("content").value;
 
-async function onMoveTo() {
-  // const mailbox =
-  const ids = Array.from(
-    document.getElementsByClassName("email-row-checkbox")
-  ).reduce((acc, ele) => (ele.checked ? [...acc, ele.dataset.id] : acc), []);
+    const res = await fetch("/sendemail", {
+      method: "POST",
+      body: JSON.stringify({ to, subject, content }),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    if (res.ok) {
+      document
+        .querySelector('#mailboxes > button[data-mailbox="Sent"]')
+        .click();
+    }
+  };
+}
+
+async function onMoveTo(mailbox) {
+  if (document.getElementById("emails").dataset.currentPage === "compose") {
+    return;
+  }
+  let ids;
+  if (document.getElementById("emails").dataset.currentPage === "list") {
+    ids = Array.from(
+      document.getElementsByClassName("email-row-checkbox")
+    ).reduce((acc, ele) => (ele.checked ? [...acc, ele.dataset.id] : acc), []);
+  } else if (
+    document.getElementById("emails").dataset.currentPage === "content"
+  ) {
+    ids = [document.getElementById("emails").dataset.id];
+  } else {
+    return;
+  }
+
   await fetch("/changemailbox", {
     method: "POST",
-    body: JSON.stringify({ ids })
+    body: JSON.stringify({ ids, mailbox }),
+    headers: { "Content-Type": "application/json" }
   });
+
+  if (document.getElementById("emails").dataset.currentPage === "list") {
+    await fetchEmailRows(document.getElementById("emails").dataset.mailbox);
+  } else if (
+    document.getElementById("emails").dataset.currentPage === "content"
+  ) {
+    await fetchEmailRows(document.getElementById("emails").dataset.mailbox);
+  }
 }
 
 function onBack() {
@@ -106,6 +164,12 @@ function hydrateAllEmailRows() {
     row.addEventListener("click", () => {
       showContent(id);
     });
+    row.children[0].addEventListener("click", event => {
+      event.cancelBubble = true;
+      if (event.stopPropagation) {
+        event.stopPropagation();
+      }
+    });
   });
 }
 
@@ -117,11 +181,25 @@ async function fetchEmailRows(mailbox) {
   }
   document.getElementById("emails").dataset.page = page;
   document.getElementById("emails").dataset.mailbox = mailbox;
+  document.getElementById("emails").dataset.currentPage = "list";
   document.getElementById("emails").innerHTML = (await res.json())
     .map(makeEmailRow)
     .join("");
   hydrateAllEmailRows();
 }
+
+window.addEventListener("click", function(event) {
+  if (!event.target.matches(".dropbtn")) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains("show")) {
+        openDropdown.classList.remove("show");
+      }
+    }
+  }
+});
 
 // Init on run
 showInbox();

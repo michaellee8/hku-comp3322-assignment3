@@ -19,7 +19,7 @@ body > #functions {
 body > #panel {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 
   flex: 0 0 70%;
 }
@@ -32,7 +32,7 @@ body > #panel {
 }
 
 #panel > #emails {
-  flex-basis: 70%;
+  flex-basis: 400px;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -52,6 +52,7 @@ body > #panel {
 }
 
 div.email-row {
+  flex-wrap: wrap;
 }
 
 .column {

@@ -4,11 +4,30 @@ var app = express();
 var monk = require("monk");
 var db = monk("localhost:27017/webmailsys");
 
+const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+const month = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec"
+];
+
 // allow retrieval of static files and make db accessible to router
 app.use(express.static("public"), function(req, res, next) {
   req.db = db;
   next();
 });
+
+app.use(express.json());
 
 app.get("/retrieveemaillist", async (req, res) => {
   let { page, mailbox } = req.query;
@@ -46,6 +65,44 @@ app.get("/getemail", async (req, res) => {
     return;
   }
   res.json(email);
+});
+
+app.post("/changemailbox", async (req, res) => {
+  const { ids, mailbox } = req.body;
+  const { db } = req;
+  await db
+    .get("emailList")
+    .update({ _id: { $in: ids } }, { $set: { mailbox } }, { multi: true });
+  res.sendStatus(200);
+});
+
+app.post("/sendemail", async (req, res) => {
+  const { to, subject, content } = req.body;
+  const { db } = req;
+  const date = new Date();
+  await db.get("emailList").insert({
+    sender: "sender@cs.hku.hk",
+    recipient: to,
+    title: subject,
+    time: `${date
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${date
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}:${date
+      .getSeconds()
+      .toString()
+      .padStart(2, "0")} ${weekday[date.getDay()]} ${
+      month[date.getMonth()]
+    } ${date
+      .getDate()
+      .toString()
+      .padStart(2, "0")} ${date.getFullYear()}`,
+    content: content,
+    mailbox: "Sent"
+  });
+  res.sendStatus(200);
 });
 
 var server = app.listen(8081, function() {

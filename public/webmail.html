@@ -4,17 +4,19 @@
     <title>Web Mail System</title>
     <script defer src="javascripts/script.js"></script>
     <link rel="stylesheet" href="stylesheets/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <header id="header"></header>
     <nav id="functions">
       <button id="compose">Compose</button>
       <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+        <button onclick="myFunction()" class="dropbtn">Move To...</button>
         <div id="myDropdown" class="dropdown-content">
-          <a href="#"></a>
-          <a href="#">Link 2</a>
-          <a href="#">Link 3</a>
+          <a href="#" onclick="onMoveTo('Inbox')">Inbox</a>
+          <a href="#" onclick="onMoveTo('Important')">Important</a>
+          <a href="#" onclick="onMoveTo('Sent')">Sent</a>
+          <a href="#" onclick="onMoveTo('Trash')">Trash</a>
         </div>
       </div>
       <button id="back"><</button>
