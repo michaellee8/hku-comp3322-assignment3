@@ -2,6 +2,9 @@ body {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  background-color: #212529;
+  height: 100vh;
+  margin: 0px;
 }
 
 button {
@@ -9,50 +12,58 @@ button {
 }
 
 body > #header {
-  flex: 0 0 20%;
+  /*flex: 0 0 20%;*/
 }
 
 body > #functions {
-  flex: 0 0 10%;
+  /*flex: 0 0 10%;*/
 }
 
 body > #panel {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
 
-  flex: 0 0 70%;
+  /*flex: 0 0 70%;*/
 }
 
 #panel > #mailboxes {
-  flex-basis: 30%;
+  /*flex-basis: 100px;*/
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  flex-grow: 0;
+  flex-shrink: 1;
+  margin-top: 10px;
 }
 
 #panel > #emails {
-  flex-basis: 400px;
+  /*flex-basis: 400px;*/
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  flex-grow: 1;
+  margin-top: 10px;
 }
 
 #mailboxes > button.mailbox-link {
   background-color: transparent;
   border: none;
-  font-size: 14px;
-}
-
-#mailboxes > .mailbox-link.clicked {
-  color: green;
-}
-#mailboxes > .mailbox-link.not-clicked {
+  font-size: 16px;
   color: black;
 }
 
-div.email-row {
-  flex-wrap: wrap;
+#mailboxes > button.mailbox-link:hover {
+  box-shadow: 1px 1px 1px 1px black;
+}
+
+#mailboxes > button.mailbox-link.clicked {
+  color: green;
+}
+#mailboxes > button.mailbox-link.not-clicked {
+  color: black;
 }
 
 .column {
@@ -71,21 +82,21 @@ div.email-row {
   flex-wrap: nowrap;
 }
 
-/* Dropdown Button */
-.dropbtn {
-  background-color: #3498db;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
+/*!* Dropdown Button *!*/
+/*.dropbtn {*/
+/*  background-color: #3498db;*/
+/*  color: white;*/
+/*  padding: 16px;*/
+/*  font-size: 16px;*/
+/*  border: none;*/
+/*  cursor: pointer;*/
+/*}*/
 
-/* Dropdown button on hover & focus */
-.dropbtn:hover,
-.dropbtn:focus {
-  background-color: #2980b9;
-}
+/*!* Dropdown button on hover & focus *!*/
+/*.dropbtn:hover,*/
+/*.dropbtn:focus {*/
+/*  background-color: #2980b9;*/
+/*}*/
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
@@ -119,4 +130,118 @@ div.email-row {
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
   display: block;
+}
+
+#functions {
+  padding: 10px;
+}
+
+#functions button {
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 15px;
+  background-color: #007bbf;
+  color: white;
+  border: none;
+  transition: color 0.15s;
+}
+
+#functions button:hover {
+  background-color: #0069d9;
+  box-shadow: 1px 1px 1px 1px black;
+}
+
+#panel {
+  background-color: white;
+  flex: 1 0 auto;
+}
+
+div.email-row {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 3px;
+}
+
+div.email-row:hover {
+  box-shadow: 1px 1px 1px 1px black;
+  font-weight: bold;
+}
+
+div.email-row > .email-row-checkbox {
+  background: white;
+  flex-grow: 1;
+}
+
+div.email-row > .email-row-name {
+  background: white;
+  flex-grow: 3;
+}
+
+div.email-row > .email-row-title {
+  background: white;
+  flex-grow: 3;
+}
+
+div.email-row > .email-row-time {
+  background: white;
+  flex-grow: 3;
+}
+
+.content-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.content-sender > label,
+.content-recipient > label {
+  font-size: 12px;
+  color: gray;
+}
+
+.content-content {
+  margin-top: 15px;
+}
+
+#compose-header {
+  font-weight: bold;
+}
+
+#content {
+  width: 100%;
+  height: 200px;
+}
+
+#to {
+  width: 100%;
+}
+
+#subject {
+  width: 100%;
+}
+
+#send-compose {
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 15px;
+  background-color: #007bbf;
+  color: white;
+  border: none;
+  transition: color 0.15s;
+}
+
+#send-compose:hover {
+  background-color: #0069d9;
+  box-shadow: 1px 1px 1px 1px black;
+}
+
+div.compose {
+  margin: 5px;
+}
+
+input.compose,
+textarea.compose {
+  border-radius: 5px;
+  height: 20px;
 }

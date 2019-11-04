@@ -51,13 +51,13 @@ async function showContent(id) {
   const mail = await (await fetch(`/getemail?id=${id}`)).json();
   const { sender, recipient, title, time, content, mailbox } = mail;
   document.getElementById("emails").innerHTML = `
-<div class="row space-between">
-  <div>${title}</div>
-  <div>${time}</div>
+<div class="row space-between" class="content-header">
+  <div class="content-title">${title}</div>
+  <div class="content-time">${time}</div>
 </div>
-<div>${sender}</div>
-<div>${recipient}</div>
-<div>${content}</div>
+<div class="content-sender"><label>sender: </label><span>${sender}</span></div>
+<div class="content-recipient"><label>receiver: </label><span>${recipient}</span></div>
+<div class="content-content">${content}</div>
   `;
 
   document.getElementById("emails").dataset.currentPage = "content";
@@ -66,20 +66,20 @@ async function showContent(id) {
 
 function onCompose() {
   document.getElementById("emails").innerHTML = `
-<div>New Message</div>
-<div>
-  <label for="to">To: </label>
-  <input id="to"/>
+<div id="compose-header" class="compose">New Message</div>
+<div class="compose">
+  <label for="to" class="compose">To: </label>
+  <input id="to" class="compose"/>
 </div>
-<div>
-  <label for="subject">Subject: </label>
-  <input id="subject"/>
+<div class="compose">
+  <label for="subject" class="compose">Subject: </label>
+  <input id="subject" class="compose"/>
 </div>
-<div>
-  <textarea id="content"></textarea>
+<div class="compose">
+  <textarea id="content" class="compose"></textarea>
 </div>
-<div>
-  <button id="send-compose">Send</button>
+<div class="compose">
+  <button id="send-compose" class="compose">Send</button>
 </div>
   `;
   document.getElementById("send-compose").onclick = async () => {
